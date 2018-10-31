@@ -268,6 +268,7 @@ class Auth
         $this->_errors = array();
         $this->_lastError = $this->_lastErrorException = null;
         if (isset($_REQUEST['SAMLResponse'])) {
+            dd('SAMLResponse found');
             $logoutResponse = new LogoutResponse($this->_settings, $_REQUEST['SAMLResponse']);
             $this->_lastResponse = $logoutResponse->getXML();
             if (!$logoutResponse->isValid($requestId, $retrieveParametersFromServer)) {
@@ -288,6 +289,7 @@ class Auth
                 }
             }
         } else if (isset($_REQUEST['SAMLRequest'])) {
+            dd('SAMLRequest found');
             $logoutRequest = new LogoutRequest($this->_settings, $_REQUEST['SAMLRequest']);
             $this->_lastRequest = $logoutRequest->getXML();
             if (!$logoutRequest->isValid($retrieveParametersFromServer)) {
