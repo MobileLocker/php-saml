@@ -267,8 +267,8 @@ class Auth
     {
         $this->_errors = array();
         $this->_lastError = $this->_lastErrorException = null;
-        if (isset($_GET['SAMLResponse'])) {
-            $logoutResponse = new LogoutResponse($this->_settings, $_GET['SAMLResponse']);
+        if (isset($_REQUEST['SAMLResponse'])) {
+            $logoutResponse = new LogoutResponse($this->_settings, $_REQUEST['SAMLResponse']);
             $this->_lastResponse = $logoutResponse->getXML();
             if (!$logoutResponse->isValid($requestId, $retrieveParametersFromServer)) {
                 $this->_errors[] = 'invalid_logout_response';
@@ -287,8 +287,8 @@ class Auth
                     }
                 }
             }
-        } else if (isset($_GET['SAMLRequest'])) {
-            $logoutRequest = new LogoutRequest($this->_settings, $_GET['SAMLRequest']);
+        } else if (isset($_REQUEST['SAMLRequest'])) {
+            $logoutRequest = new LogoutRequest($this->_settings, $_REQUEST['SAMLRequest']);
             $this->_lastRequest = $logoutRequest->getXML();
             if (!$logoutRequest->isValid($retrieveParametersFromServer)) {
                 $this->_errors[] = 'invalid_logout_request';
@@ -311,8 +311,8 @@ class Auth
                 $logoutResponse = $responseBuilder->getResponse();
 
                 $parameters = array('SAMLResponse' => $logoutResponse);
-                if (isset($_GET['RelayState'])) {
-                    $parameters['RelayState'] = $_GET['RelayState'];
+                if (isset($_REQUEST['RelayState'])) {
+                    $parameters['RelayState'] = $_REQUEST['RelayState'];
                 }
 
                 $security = $this->_settings->getSecurityData();
@@ -522,7 +522,7 @@ class Auth
      * @param bool        $setNameIdPolicy When true the AuthNRequest will set a nameIdPolicy element
      *
      * @return string|null If $stay is True, it return a string with the SLO URL + LogoutRequest + parameters
-     * 
+     *
      * @throws Error
      */
     public function login($returnTo = null, array $parameters = array(), $forceAuthn = false, $isPassive = false, $stay = false, $setNameIdPolicy = true)
